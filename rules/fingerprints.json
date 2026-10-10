@@ -1,0 +1,201 @@
+{
+  "rules": [
+    {
+      "id": "ssh-openssh",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "(?m)^SSH-(?:2\\.0|1\\.99|1\\.5)-OpenSSH_([0-9][A-Za-z0-9.]+)(?:[ \\r\\n-]|$)",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "version_group": 1,
+      "confidence": 0.95
+    },
+    {
+      "id": "ssh-generic",
+      "priority": 10,
+      "source": "banner",
+      "pattern": "(?m)^SSH-(?:2\\.0|1\\.99|1\\.5)-([^ \\r\\n]+)",
+      "protocol": "SSH",
+      "product_group": 1,
+      "confidence": 0.8
+    },
+    {
+      "id": "http-nginx",
+      "priority": 100,
+      "source": "http_headers",
+      "pattern": "(?im)^Server:[ \\t]*nginx(?:/([0-9][A-Za-z0-9._-]*))?(?:[ \\t\\r]|$)",
+      "protocol": "HTTP",
+      "product": "nginx",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "http-apache",
+      "priority": 100,
+      "source": "http_headers",
+      "pattern": "(?im)^Server:[ \\t]*Apache(?:/([0-9][A-Za-z0-9._-]*))?(?:[ \\t\\r]|$)",
+      "protocol": "HTTP",
+      "product": "Apache",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "http-jetty",
+      "priority": 100,
+      "source": "http_headers",
+      "pattern": "(?im)^Server:[ \\t]*Jetty(?:[/ (]([0-9][A-Za-z0-9._-]*))?(?:[) \\t\\r]|$)",
+      "protocol": "HTTP",
+      "product": "Jetty",
+      "version_group": 1,
+      "confidence": 0.85
+    },
+    {
+      "id": "http-iis",
+      "priority": 100,
+      "source": "http_headers",
+      "pattern": "(?im)^Server:[ \\t]*Microsoft-IIS(?:/([0-9][A-Za-z0-9._-]*))?(?:[ \\t\\r]|$)",
+      "protocol": "HTTP",
+      "product": "Microsoft-IIS",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "http-generic",
+      "priority": 10,
+      "source": "http_headers",
+      "pattern": "(?m)^HTTP/[0-9]+(?:\\.[0-9]+)? [1-5][0-9]{2}(?:[ \\t]|$)",
+      "protocol": "HTTP",
+      "confidence": 0.8
+    },
+    {
+      "id": "mysql-mariadb",
+      "priority": 110,
+      "source": "mysql_version",
+      "pattern": "^(?:5\\.5\\.5-)?([0-9]+\\.[0-9]+\\.[0-9]+)[^\\x00]*MariaDB[^\\x00]*$",
+      "protocol": "MySQL",
+      "product": "MariaDB",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "mysql",
+      "priority": 100,
+      "source": "mysql_version",
+      "pattern": "^([0-9]+\\.[0-9]+\\.[0-9]+)(?:[-+._][A-Za-z0-9.+_-]+)?$",
+      "protocol": "MySQL",
+      "product": "MySQL",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "redis-info",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "(?m)^redis_version:([0-9]+\\.[0-9]+\\.[0-9]+)(?:\\r?$)",
+      "protocol": "Redis",
+      "product": "Redis",
+      "version_group": 1,
+      "confidence": 0.95
+    },
+    {
+      "id": "redis-pong",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "^\\+PONG(?:\\r?\\n)?$",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.7
+    },
+    {
+      "id": "redis-auth",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "^-NOAUTH Authentication required\\.?(?:\\r?\\n)?$",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.7
+    },
+    {
+      "id": "redis-arguments",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "^-ERR wrong number of arguments for '[A-Za-z0-9_|.-]+' command(?:\\r?\\n)?$",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.7
+    },
+    {
+      "id": "ftp-proftpd",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "(?im)^220[- ][^\\r\\n]*?\\bProFTPD(?:[ /]([0-9][A-Za-z0-9._-]*))?(?:[ \\r\\n()]|$)",
+      "protocol": "FTP",
+      "product": "ProFTPD",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-vsftpd",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "(?im)^220[- ][^\\r\\n]*?\\bvsFTPd(?:[ /]([0-9][A-Za-z0-9._-]*))?(?:[ \\r\\n()]|$)",
+      "protocol": "FTP",
+      "product": "vsFTPd",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-pureftpd",
+      "priority": 100,
+      "source": "banner",
+      "pattern": "(?im)^220[- ][^\\r\\n]*?\\bPure-FTPd[ /]([0-9][A-Za-z0-9._-]*)(?:[ \\r\\n()]|$)",
+      "protocol": "FTP",
+      "product": "Pure-FTPd",
+      "version_group": 1,
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-generic",
+      "priority": 10,
+      "source": "banner",
+      "pattern": "(?im)^220[- ][^\\r\\n]*?\\bFTP\\b",
+      "protocol": "FTP",
+      "confidence": 0.7
+    },
+    {
+      "id": "ftp-pureftpd-generic",
+      "priority": 90,
+      "source": "banner",
+      "pattern": "(?im)^220[- ][^\\r\\n]*?\\bPure-FTPd(?:[ \\r\\n()]|$)",
+      "protocol": "FTP",
+      "product": "Pure-FTPd",
+      "confidence": 0.7
+    }
+  ],
+  "os_rules": [
+    {
+      "pattern": "(?i)\\bUbuntu\\b",
+      "hint": "Ubuntu"
+    },
+    {
+      "pattern": "(?i)\\bDebian\\b",
+      "hint": "Debian"
+    },
+    {
+      "pattern": "(?i)\\bCentOS\\b",
+      "hint": "CentOS"
+    },
+    {
+      "pattern": "(?i)\\bFreeBSD\\b",
+      "hint": "FreeBSD"
+    },
+    {
+      "pattern": "(?i)\\bOpenBSD\\b",
+      "hint": "OpenBSD"
+    },
+    {
+      "pattern": "(?i)\\bWindows\\b",
+      "hint": "Windows"
+    }
+  ]
+}
