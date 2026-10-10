@@ -1,0 +1,6 @@
+.git
+.gstack
+bin
+coverage.out
+*.exe
+*.log

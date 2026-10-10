@@ -1,0 +1,56 @@
+services:
+  server:
+    build:
+      context: .
+      target: server
+    restart: unless-stopped
+    read_only: true
+    user: "65532:65532"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 256m
+    cpus: 1.0
+    volumes:
+      - ./rules:/app/rules:ro
+    networks: [backend]
+    healthcheck:
+      test: ["CMD", "/app/server", "-healthcheck", "-health-url", "http://127.0.0.1:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  client:
+    build:
+      context: .
+      target: client
+    command: ["-input", "/data/banners.json", "-server", "http://server:8080", "-timeout", "15s"]
+    depends_on:
+      server:
+        condition: service_healthy
+    restart: "no"
+    read_only: true
+    user: "65532:65532"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 128m
+    cpus: 0.5
+    volumes:
+      - ./testdata:/data:ro
+    networks: [backend]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  backend:
+    internal: true
